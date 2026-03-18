@@ -3,7 +3,6 @@ package handler
 import (
 	"net/http"
 
-	"github.com/Djuanzz/cashlens-backend/internal/repository"
 	"github.com/Djuanzz/cashlens-backend/internal/service"
 	"github.com/Djuanzz/cashlens-backend/pkg/utils"
 	"github.com/gin-gonic/gin"
@@ -13,12 +12,9 @@ type HealthHandler struct {
 	service *service.HealthService
 }
 
-func NewHealthHandler() *HealthHandler {
-	repo := repository.NewHealthRepository()
-	service := service.NewHealthService(repo)
-
+func NewHealthHandler(hs *service.HealthService) *HealthHandler {
 	return &HealthHandler{
-		service: service,
+		service: hs,
 	}
 }
 
