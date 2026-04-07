@@ -8,10 +8,11 @@ type Response struct {
 	Data    interface{} `json:"data" form:"data" omitempty:""`
 }
 
-func SuccessResponse(c *gin.Context, httpStatus int, data interface{}) {
+func SuccessResponse(c *gin.Context, httpStatus int, message string, data interface{}) {
 	c.JSON(httpStatus, Response{
-		Status: "success",
-		Data:   data,
+		Status:  "success",
+		Message: message,
+		Data:    data,
 	})
 }
 

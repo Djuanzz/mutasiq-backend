@@ -21,5 +21,5 @@ func NewHealthHandler(hs *service.HealthService) *HealthHandler {
 func (h *HealthHandler) CheckHealth(C *gin.Context) {
 	result := h.service.CheckHealth()
 
-	utils.SuccessResponse(C, http.StatusOK, result)
+	utils.SuccessResponse(C, http.StatusOK, "Server healthy", result)
 }
