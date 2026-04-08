@@ -8,7 +8,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/Djuanzz/cashlens-backend/internal/model"
+	"github.com/Djuanzz/mutasiq-backend/internal/model"
 	"github.com/ledongthuc/pdf"
 )
 

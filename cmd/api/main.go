@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/Djuanzz/cashlens-backend/internal/router"
+	"github.com/Djuanzz/mutasiq-backend/internal/router"
 )
 
 type Transaction struct {

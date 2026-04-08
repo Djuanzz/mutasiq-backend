@@ -1,4 +1,4 @@
-module github.com/Djuanzz/cashlens-backend
+module github.com/Djuanzz/mutasiq-backend
 
 go 1.26.1
 

@@ -1,8 +1,8 @@
 package service
 
 import (
-	"github.com/Djuanzz/cashlens-backend/internal/model"
-	"github.com/Djuanzz/cashlens-backend/internal/repository"
+	"github.com/Djuanzz/mutasiq-backend/internal/model"
+	"github.com/Djuanzz/mutasiq-backend/internal/repository"
 )
 
 type HealthService struct {

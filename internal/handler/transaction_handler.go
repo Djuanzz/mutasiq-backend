@@ -6,8 +6,8 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/Djuanzz/cashlens-backend/internal/service"
-	"github.com/Djuanzz/cashlens-backend/pkg/utils"
+	"github.com/Djuanzz/mutasiq-backend/internal/service"
+	"github.com/Djuanzz/mutasiq-backend/pkg/utils"
 	"github.com/gin-gonic/gin"
 )
 

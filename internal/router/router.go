@@ -1,7 +1,7 @@
 package router
 
 import (
-	"github.com/Djuanzz/cashlens-backend/internal/middleware"
+	"github.com/Djuanzz/mutasiq-backend/internal/middleware"
 	"github.com/gin-gonic/gin"
 )
 

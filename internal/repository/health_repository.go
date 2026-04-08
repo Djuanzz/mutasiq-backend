@@ -1,6 +1,6 @@
 package repository
 
-import "github.com/Djuanzz/cashlens-backend/internal/model"
+import "github.com/Djuanzz/mutasiq-backend/internal/model"
 
 type HealthRepository struct {
 }
