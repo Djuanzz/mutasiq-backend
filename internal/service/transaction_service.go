@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"log"
 	"os"
+	"path/filepath"
 	"regexp"
 	"strconv"
 	"strings"
@@ -19,30 +20,44 @@ func NewTransactionService() *TransactionService {
 	return &TransactionService{}
 }
 
-func (s *TransactionService) ProcessTransactionFile(filePath string) error {
+func (s *TransactionService) ProcessTransactionFile(filePath string, fileName string) ([]model.Transaction, error) {
 
 	text, err := extractTextFromPDF(filePath)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
+	year, found := extractYearFromText(text)
+	if !found {
+		log.Println("⚠️ Year not found! Raw text snippet:")
+		if len(text) > 300 {
+			log.Println(text[:300]) // print 300 char pertama buat liat formatnya
+		} else {
+			log.Println(text)
+		}
+	}
 	cleaned := cleanExtractedText(text)
 	lines := strings.Split(cleaned, "\n")
+
 	var results []model.Transaction
 
 	for _, line := range lines {
-		txn := parseTransaction(line)
+		txn := parseTransaction(line, year) // 🔥 kirim year
 		if txn != nil {
 			results = append(results, *txn)
 		}
 	}
 
-	saveJSON("transactions.json", results)
-	return nil
+	baseName := strings.TrimSuffix(fileName, filepath.Ext(fileName))
+	outputPath := filepath.Join("transactions", baseName+".json")
+
+	saveJSON(outputPath, results)
+
+	return results, nil
 }
 
 func (s *TransactionService) BlueTakeJson() ([]model.Transaction, error) {
-	file, err := os.ReadFile("files/transactions.json")
+	file, err := os.ReadFile("transactions/0154143714_JAN_2025_WUT.json")
 
 	if err != nil {
 		return nil, err
@@ -169,7 +184,7 @@ func extractAmount(line string) (float64, string, bool) {
 
 }
 
-func parseTransaction(line string) *model.Transaction {
+func parseTransaction(line string, year string) *model.Transaction {
 	line = strings.TrimSpace(line)
 	if len(line) < 10 {
 		return nil
@@ -186,7 +201,8 @@ func parseTransaction(line string) *model.Transaction {
 	if strings.Contains(line, "DB") {
 		typ = "DB"
 	}
-	date := line[:5]
+	rawDate := line[:5]
+	date := rawDate + "/" + year
 	idx := strings.Index(line, rawAmount)
 	if idx != -1 {
 		line = line[:idx+len(rawAmount)]
@@ -216,15 +232,39 @@ func parseTransaction(line string) *model.Transaction {
 }
 
 func saveJSON(path string, data []model.Transaction) {
+	dir := filepath.Dir(path)
+	if err := os.MkdirAll(dir, os.ModePerm); err != nil {
+		log.Fatal(err)
+	}
+
 	file, err := os.Create(path)
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer file.Close()
+
 	encoder := json.NewEncoder(file)
 	encoder.SetIndent("", "  ")
-	err = encoder.Encode(data)
-	if err != nil {
+
+	if err := encoder.Encode(data); err != nil {
 		log.Fatal(err)
 	}
+}
+
+func extractYearFromText(text string) (string, bool) {
+	// Coba berbagai format yang mungkin muncul dari PDF extraction
+	patterns := []string{
+		`PERIODE\s*:\s*[A-Z]+\s+(\d{4})`, // "PERIODE : JANUARI 2025"
+		`PERIODE[^0-9]*(\d{4})`,          // fallback lebih general
+	}
+
+	for _, pattern := range patterns {
+		re := regexp.MustCompile(pattern)
+		match := re.FindStringSubmatch(text)
+		if len(match) > 1 {
+			return match[1], true
+		}
+	}
+
+	return "", false
 }
