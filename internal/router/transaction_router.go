@@ -11,6 +11,6 @@ func TransactionRouter(r *gin.RouterGroup) {
 	handler := handler.NewTransactionHandler(service)
 	transaction := r.Group("/transaction")
 
-	transaction.POST("/process", handler.ProcessTransactionFile)
+	transaction.POST("/upload", handler.ProcessTransactionFile)
 	transaction.GET("/blue", handler.BlueTakeJson)
 }
