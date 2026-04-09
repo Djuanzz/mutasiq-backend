@@ -46,13 +46,13 @@ func (h *TransactionHandler) ProcessTransactionFile(ctx *gin.Context) {
 	fmt.Println("File saved at:", filePath)
 
 	// baru kirim path ke service
-	err = h.service.ProcessTransactionFile(filePath)
+	transactions, err := h.service.ProcessTransactionFile(filePath, file.Filename)
 	if err != nil {
 		utils.ErrorResponse(ctx, http.StatusInternalServerError, err.Error())
 		return
 	}
 
-	utils.SuccessResponse(ctx, http.StatusOK, "File processed successfully", "")
+	utils.SuccessResponse(ctx, http.StatusOK, "File processed successfully", transactions)
 }
 
 func (h *TransactionHandler) BlueTakeJson(ctx *gin.Context) {
