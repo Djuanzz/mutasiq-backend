@@ -54,13 +54,3 @@ func (h *TransactionHandler) ProcessTransactionFile(ctx *gin.Context) {
 
 	utils.SuccessResponse(ctx, http.StatusOK, "File processed successfully", transactions)
 }
-
-func (h *TransactionHandler) BlueTakeJson(ctx *gin.Context) {
-	data, err := h.service.BlueTakeJson()
-	if err != nil {
-		utils.ErrorResponse(ctx, http.StatusInternalServerError, err.Error())
-		return
-	}
-
-	utils.SuccessResponse(ctx, http.StatusOK, "JSON transaction successfully", data)
-}

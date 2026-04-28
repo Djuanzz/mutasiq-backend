@@ -56,23 +56,6 @@ func (s *TransactionService) ProcessTransactionFile(filePath string, fileName st
 	return results, nil
 }
 
-func (s *TransactionService) BlueTakeJson() ([]model.Transaction, error) {
-	file, err := os.ReadFile("transactions/0154143714_JAN_2025_WUT.json")
-
-	if err != nil {
-		return nil, err
-	}
-
-	var transactions []model.Transaction
-	err = json.Unmarshal(file, &transactions)
-
-	if err != nil {
-		return nil, err
-	}
-
-	return transactions, nil
-}
-
 func extractTextFromPDF(filePath string) (string, error) {
 	f, r, err := pdf.Open(filePath)
 	if err != nil {
