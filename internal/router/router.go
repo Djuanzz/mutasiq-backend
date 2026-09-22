@@ -14,6 +14,7 @@ func SetupRouter(db *gorm.DB) *gin.Engine {
 
 	HealthRouter(api)
 	TransactionRouter(api, db)
+	CategoryRouter(api, db)
 
 	return r
 }
