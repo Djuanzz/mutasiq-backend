@@ -15,4 +15,5 @@ func CategoryRouter(r *gin.RouterGroup, db *gorm.DB) {
 	category := r.Group("/category")
 
 	category.POST("/", ch.CreateCategory)
+	category.GET("/", ch.GetAllCategories)
 }
