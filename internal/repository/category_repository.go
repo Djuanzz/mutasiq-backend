@@ -34,3 +34,10 @@ func (cr *CategoryRepository) FindByName(name string) (*model.Category, error) {
 
 	return &category, nil
 }
+
+func (cr *CategoryRepository) GetAll() ([]model.Category, error) {
+	var categories []model.Category
+	err := cr.db.Find(&categories).Error
+
+	return categories, err
+}
