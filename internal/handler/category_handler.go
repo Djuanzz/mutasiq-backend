@@ -30,7 +30,7 @@ func (ch *CategoryHandler) CreateCategory(ctx *gin.Context) {
 		return
 	}
 
-	utils.SuccessResponse(ctx, http.StatusCreated, "Category created successfully", cm)
+	utils.SuccessResponse(ctx, http.StatusCreated, "category created successfully", cm)
 }
 
 func (ch *CategoryHandler) GetAllCategories(ctx *gin.Context) {
@@ -41,5 +41,14 @@ func (ch *CategoryHandler) GetAllCategories(ctx *gin.Context) {
 		return
 	}
 
-	utils.SuccessResponse(ctx, http.StatusOK, "Categories fetched successfully", categories)
+	utils.SuccessResponse(ctx, http.StatusOK, "categories fetched successfully", categories)
+}
+
+func (ch *CategoryHandler) DeleteAllCategories(ctx *gin.Context) {
+	if err := ch.service.DeleteAllCategories(); err != nil {
+		utils.ErrorResponse(ctx, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	utils.SuccessResponse(ctx, http.StatusOK, "all categories deleted successfully", nil)
 }
