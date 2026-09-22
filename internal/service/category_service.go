@@ -30,3 +30,7 @@ func (cs *CategoryService) CreateCategory(cm *model.Category) error {
 	cm.Id = uuid.New()
 	return cs.repo.Create(cm)
 }
+
+func (cs *CategoryService) GetAllCategories() ([]model.Category, error) {
+	return cs.repo.GetAll()
+}
