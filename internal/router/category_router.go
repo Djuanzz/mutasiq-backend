@@ -16,4 +16,5 @@ func CategoryRouter(r *gin.RouterGroup, db *gorm.DB) {
 
 	category.POST("/", ch.CreateCategory)
 	category.GET("/", ch.GetAllCategories)
+	category.DELETE("/", ch.DeleteAllCategories)
 }
