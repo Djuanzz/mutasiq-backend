@@ -32,3 +32,14 @@ func (ch *CategoryHandler) CreateCategory(ctx *gin.Context) {
 
 	utils.SuccessResponse(ctx, http.StatusCreated, "Category created successfully", cm)
 }
+
+func (ch *CategoryHandler) GetAllCategories(ctx *gin.Context) {
+	categories, err := ch.service.GetAllCategories()
+
+	if err != nil {
+		utils.ErrorResponse(ctx, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	utils.SuccessResponse(ctx, http.StatusOK, "Categories fetched successfully", categories)
+}
