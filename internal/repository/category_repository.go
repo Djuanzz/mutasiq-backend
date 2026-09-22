@@ -41,3 +41,7 @@ func (cr *CategoryRepository) GetAll() ([]model.Category, error) {
 
 	return categories, err
 }
+
+func (cr *CategoryRepository) DeleteAll() error {
+	return cr.db.Session(&gorm.Session{AllowGlobalUpdate: true}).Delete(&model.Category{}).Error
+}
