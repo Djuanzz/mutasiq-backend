@@ -111,6 +111,7 @@ func (h *TransactionHandler) ProcessTransactionFile(ctx *gin.Context) {
 	// baru kirim path ke service
 	transactions, err := h.service.ProcessTransactionFile(filePath, file.Filename)
 	if err != nil {
+		fmt.Printf("[ERROR] ProcessTransactionFile: %v\n", err)
 		utils.ErrorResponse(ctx, http.StatusInternalServerError, err.Error())
 		return
 	}

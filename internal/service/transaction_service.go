@@ -23,8 +23,10 @@ func (s *TransactionService) ProcessTransactionFile(filePath string, fileName st
 
 	text, err := parser.ExtractTextFromPDF(filePath)
 	if err != nil {
+		log.Printf("[ERROR] ExtractTextFromPDF(%s): %v", filePath, err)
 		return nil, err
 	}
+	log.Printf("[DEBUG] PDF extracted, text length: %d chars", len(text))
 
 	year, found := parser.ExtractYearFromText(text)
 	if !found {
@@ -48,8 +50,10 @@ func (s *TransactionService) ProcessTransactionFile(filePath string, fileName st
 		}
 	}
 
+	log.Printf("[DEBUG] Parsed %d transactions", len(results))
 	if len(results) > 0 {
 		if err := s.repo.CreateBatch(results); err != nil {
+			log.Printf("[ERROR] CreateBatch: %v", err)
 			return nil, err
 		}
 	}
