@@ -1,6 +1,8 @@
 package service
 
 import (
+	"errors"
+
 	"github.com/Djuanzz/mutasiq-backend/internal/model"
 	"github.com/Djuanzz/mutasiq-backend/internal/repository"
 	"github.com/google/uuid"
@@ -14,7 +16,17 @@ func NewCategoryService(cr *repository.CategoryRepository) *CategoryService {
 	return &CategoryService{repo: cr}
 }
 
-func (s *CategoryService) CreateCategory(cm *model.Category) error {
+func (cs *CategoryService) CreateCategory(cm *model.Category) error {
+	existing, err := cs.repo.FindByName(cm.Name)
+
+	if err != nil {
+		return err
+	}
+
+	if existing != nil {
+		return errors.New("Category already exists")
+	}
+
 	cm.Id = uuid.New()
-	return s.repo.Create(cm)
+	return cs.repo.Create(cm)
 }
